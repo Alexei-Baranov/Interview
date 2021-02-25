@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>InterviewService.Domain</AssemblyName>
+        <RootNamespace>InterviewService.Domain</RootNamespace>
+    </PropertyGroup>
+
+</Project>

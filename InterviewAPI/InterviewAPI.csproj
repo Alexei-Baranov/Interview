@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>InterviewService.InterviewAPI</RootNamespace>
+        <AssemblyName>InterviewService.InterviewAPI</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.1.0" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Application\Application.csproj" />
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="ClientApp\angular.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\e2e\tsconfig.e2e.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\src\tsconfig.app.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\src\tsconfig.server.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\src\tsconfig.spec.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\src\tslint.json" />
+      <_ContentIncludedByDefault Remove="ClientApp\tslint.json" />
+    </ItemGroup>
+
+</Project>
