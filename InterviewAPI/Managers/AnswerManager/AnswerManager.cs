@@ -5,6 +5,7 @@ using AutoMapper;
 using InterviewService.Domain.Entities;
 using InterviewService.Domain.Resourses;
 using InterviewService.InterviewAPI.Services.AnswerService;
+using InterviewService.InterviewAPI.Services.CurrentUserService;
 using InterviewService.InterviewAPI.Services.InterviewService;
 using InterviewService.InterviewAPI.Services.OptionService;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +18,15 @@ namespace InterviewService.InterviewAPI.Managers.AnswerManager
         private readonly IMapper _mapper;
         private readonly IInterviewService _interviewService;
         private readonly IOptionService _optionService;
+        private readonly ICurrentUserService _currentUserService;
 
-        public AnswerManager(IAnswerService answerService, IMapper mapper, IInterviewService interviewService, IOptionService optionService)
+        public AnswerManager(IAnswerService answerService, IMapper mapper, IInterviewService interviewService, IOptionService optionService, ICurrentUserService currentUserService)
         {
             _answerService = answerService;
             _mapper = mapper;
             _interviewService = interviewService;
             _optionService = optionService;
+            _currentUserService = currentUserService;
         }
 
         public async Task AddAnswer(AnswerRequest request, int interviewId, CancellationToken cancellationToken)
@@ -36,6 +39,8 @@ namespace InterviewService.InterviewAPI.Managers.AnswerManager
             {
                 var answer = Answer.Create();
                 answer.Option = await _optionService.GetOption(optionId, cancellationToken);
+                answer.Option.AnswerCount++;
+                answer.UserId = _currentUserService.UserId;
                 interview.AddAnswer(answer);
             }
             

@@ -5,13 +5,10 @@ namespace InterviewService.Domain.Entities
 {
     public class Option
     {
-        
-        public static Option Create()
+        public Option()
         {
-            return new Option()
-            {
-                CreationTimestamp = DateTimeOffset.Now
-            };
+            CreationTimestamp = DateTimeOffset.Now;
+            Answers = new List<Answer>();
         }
         
         public DateTimeOffset CreationTimestamp { get; set; }
@@ -24,7 +21,8 @@ namespace InterviewService.Domain.Entities
         
         public string Title { get; set; }
 
-        public List<Answer> Answers { get; set; } = new();
-
+        public IList<Answer> Answers { get; set; }
+        
+        public int AnswerCount { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace InterviewService.Domain.Resourses
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public DateTimeOffset CreationTimestamp { get; set; }
+        public int AnswerCount { get; set; }
     }
 }

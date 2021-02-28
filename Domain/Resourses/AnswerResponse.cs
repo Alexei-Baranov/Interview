@@ -5,9 +5,9 @@ namespace InterviewService.Domain.Resourses
 {
     public class AnswerResponse
     {
-        public DateTimeOffset CreationTimestamp { get; set; }
-        
         public int Id { get; set; }
+        
+        public DateTimeOffset CreationTimestamp { get; set; }
         
         public int InterviewId { get; set; }
         

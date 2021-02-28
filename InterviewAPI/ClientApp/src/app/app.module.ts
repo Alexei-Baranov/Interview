@@ -16,6 +16,8 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {InterviewAnswerComponent} from './inteview-answer/interview-answer.component';
+import {InterviewOptionComponent} from './interview-option/interview-option.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    TodoComponent
+    TodoComponent,
+    InterviewAnswerComponent,
+    InterviewOptionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,6 +41,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
+      { path: 'interview-answer', component: InterviewAnswerComponent },
     ]),
     BrowserAnimationsModule,
     ModalModule.forRoot()

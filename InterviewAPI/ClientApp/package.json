@@ -40,6 +40,7 @@
     "@angular/cli": "10.1.0",
     "@angular/compiler-cli": "10.1.0",
     "@angular/language-service": "10.1.0",
+    "@nguniversal/module-map-ngfactory-loader": "^8.2.6",
     "@types/jasmine": "~3.3.9",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "^12.11.1",

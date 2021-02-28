@@ -13,16 +13,17 @@ namespace InterviewService.Domain.Resourses
         public string Question { get; set; }
         
         public bool AllOptionRequired { get; set; }
-        public int SelectedOptionCount { get; set; }
+        public int MaxSelectedOptionCount { get; set; }
         
-        public bool InterviewUnlimited { get; set; }
+        public IList<OptionResponse> Options { get; set; }
+        
+        public DateTime InterviewStart { get; set; }
         public DateTime? InterviewEnd { get; set; }
         
         public int ResponsesCountForPublish { get; set; }
         public bool ResponsesIsPublic { get; set; }
         
-        public InterviewStatus Status { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsPublished { get; set; }
         
         public string CreatedUserId { get; set; }
     }

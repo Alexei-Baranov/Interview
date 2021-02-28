@@ -1,17 +1,12 @@
-﻿using System.Reflection;
-using IdentityServer4.EntityFramework.Options;
+using System.Reflection;
 using InterviewService.Domain.Entities;
-using InterviewService.Infrastructure.Identity;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace InterviewService.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class ApplicationDbContext : DbContext
     {
-        
-        public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 

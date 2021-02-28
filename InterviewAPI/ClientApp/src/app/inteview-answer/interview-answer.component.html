@@ -1,0 +1,13 @@
+<div *ngIf="interviewService.interviewForAnswer != null; else noInterviewForAnswer">
+  <small>{{interviewService.interviewForAnswer.question }}</small>
+  <app-interview-option
+    [optionResponses]="interviewService.interviewForAnswer.options"
+    [allOptionRequired]="interviewService.interviewForAnswer.allOptionRequired"
+    [interviewId]="interviewService.interviewForAnswer.id"
+    [maxSelectedOptionCount]="interviewService.interviewForAnswer.maxSelectedOptionCount"></app-interview-option>
+</div>
+
+<ng-template #noInterviewForAnswer>
+  <p style="text-align: center;">No Interviews</p>
+</ng-template>
+

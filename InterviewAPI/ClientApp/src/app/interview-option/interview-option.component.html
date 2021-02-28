@@ -1,0 +1,38 @@
+<div *ngIf="answered; else noAnswered">
+  <div *ngIf="optionResponses.length; else noOptions">
+      <li *ngFor="let option of optionResponses">
+      <span>
+        <strong> {{option.title}} </strong>
+        <strong> {{option.answerCount}} </strong>
+      </span>
+      </li>
+    </div>
+</div>
+
+
+<ng-template #noAnswered>
+<div *ngIf="optionResponses.length; else noOptions">
+  <div *ngIf="maxSelectedOptionCount == 1; else manyOption ">
+    <li *ngFor="let option of optionResponses">
+      <span>
+        <button (click)="postAnswer(option.id)">{{option.title}}</button>
+      </span>
+    </li>
+  </div>
+</div>
+</ng-template>
+
+<ng-template #manyOption>
+  <li *ngFor="let option of options">
+      <span>
+        <input type="checkbox" [(ngModel)]="option.selected">
+        <strong>{{option.title}}</strong>
+      </span>
+  </li>
+  <button (click)="postAnswers()">Ответить</button>
+</ng-template>
+
+<ng-template #noOptions>
+  <p style="text-align: center;">No Options</p>
+</ng-template>
+

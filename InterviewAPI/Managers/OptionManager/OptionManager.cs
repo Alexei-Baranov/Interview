@@ -28,15 +28,14 @@ namespace InterviewService.InterviewAPI.Managers.OptionManager
             var interview = await _interviewService.GetInterview(interviewId, cancellationToken: cancellationToken);
 
             _optionService.ValidateAndThrow(request, interview, cancellationToken);
-            
-            var option = Option.Create();
+
+            var option = new Option();
 
             _mapper.Map(request, option);
             
             interview.AddOption(option);
 
             await _interviewService.UpdateInterview(interviewId, interview, cancellationToken);
-
             return _mapper.Map<OptionResponse>(option);
         }
 
@@ -53,8 +52,10 @@ namespace InterviewService.InterviewAPI.Managers.OptionManager
             await _interviewService.UpdateInterview(interviewId, interview, cancellationToken);
         }
 
-        public Task<List<OptionResponse>> GetOptions(int interviewId, CancellationToken cancellationToken) =>
-            _mapper.ProjectTo<OptionResponse>(_optionService.GetInterviewOptions(interviewId))
+        public Task<List<OptionResponse>> GetOptions(int interviewId, CancellationToken cancellationToken)
+        {
+            return _mapper.ProjectTo<OptionResponse>(_optionService.GetInterviewOptions(interviewId))
                 .ToListAsync(cancellationToken);
+        }
     }
 }

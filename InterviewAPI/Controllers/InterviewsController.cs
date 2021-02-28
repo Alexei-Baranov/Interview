@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using InterviewService.Application.Common.Security;
+using InterviewService.Domain.Enums;
 using InterviewService.Domain.Resourses;
 using InterviewService.InterviewAPI.Managers;
 using InterviewService.InterviewAPI.Managers.InterviewManager;
@@ -28,9 +29,9 @@ namespace InterviewService.InterviewAPI.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetInterviews( CancellationToken cancellationToken, bool includeDeleted = default)
+        public async Task<IActionResult> GetInterviews( InterviewType type, CancellationToken cancellationToken, int pageIndex = 1, int pageSize = 1)
         {
-            var interview = await _interviewManager.GetInterviews(cancellationToken);
+            var interview = await _interviewManager.GetInterviews(pageIndex, pageSize, type, cancellationToken);
             return Ok(interview);
         }
         
@@ -38,18 +39,13 @@ namespace InterviewService.InterviewAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateInterview(InterviewRequest request, CancellationToken cancellationToken)
         {
-            var interviewOutpuDto = await _interviewManager.AddInterview(request, cancellationToken);
-            return Ok(interviewOutpuDto) ;
+            var interviewOutputDto = await _interviewManager.AddInterview(request, cancellationToken);
+            return Ok(interviewOutputDto) ;
         }
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateInterview(int id, InterviewRequest request, CancellationToken cancellationToken)
         {
-            if (request.Id != id)
-            {
-                return BadRequest();
-            }
-            
             await _interviewManager.UpdateInterview(id, request, cancellationToken);
             return NoContent();
         }

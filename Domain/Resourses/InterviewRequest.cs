@@ -7,19 +7,16 @@ namespace InterviewService.Domain.Resourses
 {
     public class InterviewRequest
     {
-        
-        public int Id { get; set; }
-        
         public string Question { get; set; }
         
         public bool AllOptionRequired { get; set; }
-        public bool InterviewUnlimited { get; set; }
+        public int MaxSelectedOptionCount { get; set; }
+        public DateTime InterviewStart { get; set; }
         public DateTime? InterviewEnd { get; set; }
         
         public int ResponsesCountForPublish { get; set; }
         public bool ResponsesIsPublic { get; set; }
         
-        public InterviewStatus Status { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

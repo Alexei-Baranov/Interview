@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
@@ -11,12 +12,12 @@ namespace InterviewService.InterviewAPI.Services.AnswerService
 {
     public class AnswerService : IAnswerService
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
         private readonly ICurrentUserService _userService;
 
-        public AnswerService(ApplicationDbContext dbContext, ICurrentUserService userService)
+        public AnswerService(ApplicationDbContext applicationDbContext, ICurrentUserService userService)
         {
-            _dbContext = dbContext;
+            _applicationDbContext = applicationDbContext;
             _userService = userService;
         }
 
@@ -27,12 +28,17 @@ namespace InterviewService.InterviewAPI.Services.AnswerService
                 throw new ValidationException("Данный опрос был удален");
             }
 
-            if (interview.Status == InterviewStatus.Draft)
+            if (!interview.IsPublished)
             {
                 throw new ValidationException("Не найден опубликованный опрос для ответа");
             }
             
-            if (interview.Status == InterviewStatus.Finished)
+            if (interview.InterviewStart > DateTime.Now)
+            {
+                throw new ValidationException("Данный опрос не начинался");
+            }
+            
+            if (interview.InterviewEnd < DateTime.Now)
             {
                 throw new ValidationException("Данный опрос закончился");
             }
@@ -47,12 +53,12 @@ namespace InterviewService.InterviewAPI.Services.AnswerService
                 throw new ValidationException("Не выбран вариант ответа");
             }
 
-            if (request.OptionsId.Any(i => _dbContext.Options.FirstOrDefault(option => option.Id == i) == null))
+            if (request.OptionsId.Any(i => _applicationDbContext.Options.FirstOrDefault(option => option.Id == i) == null))
             {
                 throw new ValidationException("Некоторые из выбранных ответы не существуют");
             }
             
-            if (interview.AllOptionRequired && request.OptionsId.Count != interview.SelectedOptionCount)
+            if (interview.AllOptionRequired && request.OptionsId.Count != interview.MaxSelectedOptionCount)
             {
                 throw new ValidationException("Количество выбраных опций ответа не соответствует настройкам автора");
             }
@@ -65,7 +71,7 @@ namespace InterviewService.InterviewAPI.Services.AnswerService
 
         public IQueryable<Answer> GetInterviewAnswers(int interviewId)
         {
-            return _dbContext.Answers.Where(answer => answer.InterviewId == interviewId);
+            return _applicationDbContext.Answers.Where(answer => answer.InterviewId == interviewId);
         }
     }
 }

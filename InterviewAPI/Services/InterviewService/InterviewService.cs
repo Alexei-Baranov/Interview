@@ -10,23 +10,23 @@ namespace InterviewService.InterviewAPI.Services.InterviewService
 {
     public class InterviewService : IInterviewService
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public InterviewService(ApplicationDbContext dbContext)
+        public InterviewService(ApplicationDbContext applicationDbContext)
         {
-            _dbContext = dbContext;
+            _applicationDbContext = applicationDbContext;
         }
 
         public async Task CreateInterview(Interview request, CancellationToken cancellationToken)
         {
-            await _dbContext.Interviews.AddAsync(request, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _applicationDbContext.Interviews.AddAsync(request, cancellationToken);
+            await _applicationDbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task UpdateInterview(int id, Interview request, CancellationToken cancellationToken)
         {
-            _dbContext.Update(request);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            _applicationDbContext.Update(request);
+            await _applicationDbContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeleteInterview(Interview interview, CancellationToken cancellationToken)
@@ -34,17 +34,17 @@ namespace InterviewService.InterviewAPI.Services.InterviewService
             if (!interview.IsDeleted)
             {
                 interview.IsDeleted = true;
-                await _dbContext.SaveChangesAsync(cancellationToken);
+                await _applicationDbContext.SaveChangesAsync(cancellationToken);
             }
         }
 
         public IQueryable<Interview> GetInterviews(bool includedDeleted = default)
         {
-            IQueryable<Interview> interviews = _dbContext.Interviews;
+            IQueryable<Interview> interviews = _applicationDbContext.Interviews;
 
             if (includedDeleted is false)
             {
-                interviews = interviews.Where(interview => !interview.IsDeleted);
+                interviews = interviews.Where(interview => !interview.IsDeleted).OrderBy(interview => interview.Id);
             }
 
             return interviews;
@@ -52,7 +52,7 @@ namespace InterviewService.InterviewAPI.Services.InterviewService
 
         public async Task<Interview> GetInterview(int id, bool includeDeleted = default, CancellationToken cancellationToken = default)
         {
-            var interview = await _dbContext.Interviews.FirstOrDefaultAsync(interview => interview.Id == id, cancellationToken);
+            var interview = await _applicationDbContext.Interviews.Include(interview1 => interview1.Answers).FirstOrDefaultAsync(interview => interview.Id == id, cancellationToken);
 
             if (interview is null)
             {
